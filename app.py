@@ -316,12 +316,13 @@ st.markdown("""
         font-weight: 500;
     }
     .answer-box {
-        background: white;
+        background: var(--background-color);
         border: 1px solid #e8eaff;
         border-radius: 12px;
         padding: 1.5rem;
         margin-top: 1rem;
         line-height: 1.7;
+        color: var(--text-color);
     }
     .stTextInput > div > div > input {
         font-family: 'DM Sans', sans-serif;
