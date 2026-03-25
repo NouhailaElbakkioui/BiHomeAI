@@ -108,4 +108,4 @@ BiHomeAI est un outil d'information. Pour toute décision juridique ou fiscale i
 
 ---
 
-*Développé par [Nouhaila El Bakkioui](https://github.com/NouhailaElbakkioui) · Tampere, Finlande 2026*
+*Développé par [Nouhaila El Bakkioui](https://github.com/NouhailaElbakkioui) ·*
