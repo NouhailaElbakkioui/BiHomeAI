@@ -242,22 +242,30 @@ def query_rag(question: str, collection, n_results: int = 3):
     context = "\n\n---\n\n".join(context_parts)
 
     # Generate with Gemini
-    prompt = f"""Tu es BiHomeAI, un assistant expert en réglementation immobilière franco-finlandaise.
-Tu aides les expatriés français en Finlande et les Finlandais en France.
+    # Detect language
+    common_french = ['est', 'que', 'les', 'des', 'une', 'comment', 'puis', 'quelle', 'quels', 'je', 'mon', 'ma']
+    words = question.lower().split()
+    is_french = any(w in common_french for w in words)
+    lang = "French" if is_french else "English"
 
-INSTRUCTIONS:
-- - IMPORTANT: Always respond in the exact same language as the user's question. If the question is in English, respond in English. If in French, respond in French. If in Finnish, respond in Finnish. Never switch languages.
-- Cite toujours tes sources en mentionnant [SOURCE X] dans ta réponse
-- Si une question concerne les deux pays, compare-les explicitement
-- Signale si une information nécessite une vérification auprès d'un professionnel
-- Si tu n'as pas l'information, dis-le clairement
+    # Generate with Gemini
+    prompt = f"""You are BiHomeAI, an expert assistant on Franco-Finnish real estate regulation.
+You help French expats in Finland and Finns in France understand both countries' rules.
+
+CRITICAL RULES:
+- You MUST respond ENTIRELY in {lang}. This is non-negotiable.
+- If the language is English, translate ALL source content into English.
+- If the language is French, respond in French.
+- Always cite your sources using [SOURCE X]
+- Compare both countries when relevant
+- Flag when professional advice is needed
 
 Question: {question}
 
-Contexte documentaire:
+Documentary context:
 {context}
 
-Réponds à la question en t'appuyant sur les sources. Cite [SOURCE X]. Conclus par les points clés."""
+Respond based on the sources. Cite [SOURCE X]. End with key takeaways."""
 
     response = client.models.generate_content(
         model="gemini-2.5-flash",
